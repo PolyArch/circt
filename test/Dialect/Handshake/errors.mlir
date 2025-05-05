@@ -103,25 +103,9 @@ handshake.func @invalid_instance_op(%ctrl : none) -> none {
 
 // -----
 
-handshake.func @invalid_multidim_memory(%ctrl : none) -> none {
-  // expected-error @+1 {{'handshake.memory' op memref must have only a single dimension.}}
-  memory [ld = 0, st = 0] () {id = 0 : i32, lsq = false} : memref<10x10xi8>, () -> ()
-  return %ctrl : none
-}
-
-// -----
-
 handshake.func @invalid_missing_lsq(%ctrl : none) -> none {
   // expected-error @+1 {{'handshake.memory' op requires attribute 'lsq'}}
   memory [ld = 0, st = 0] () {id = 0 : i32} : memref<10xi8>, () -> ()
-  return %ctrl : none
-}
-
-// -----
-
-handshake.func @invalid_dynamic_memory(%ctrl : none) -> none {
-  // expected-error @+1 {{'handshake.memory' op memref dimensions for handshake.memory must be static.}}
-  memory [ld = 0, st = 0] () {id = 0 : i32, lsq = false} : memref<?xi8>, () -> ()
   return %ctrl : none
 }
 

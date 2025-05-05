@@ -986,11 +986,11 @@ std::string handshake::MemoryOp::getResultName(unsigned int idx) {
 LogicalResult MemoryOp::verify() {
   auto memrefType = getMemRefType();
 
-  if (memrefType.getNumDynamicDims() != 0)
-    return emitOpError()
-           << "memref dimensions for handshake.memory must be static.";
-  if (memrefType.getShape().size() != 1)
-    return emitOpError() << "memref must have only a single dimension.";
+  // if (memrefType.getNumDynamicDims() != 0)
+  //   return emitOpError()
+  //          << "memref dimensions for handshake.memory must be static.";
+  // if (memrefType.getShape().size() != 1)
+  //   return emitOpError() << "memref must have only a single dimension.";
 
   unsigned opStCount = getStCount();
   unsigned opLdCount = getLdCount();

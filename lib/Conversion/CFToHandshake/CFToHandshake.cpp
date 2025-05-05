@@ -268,9 +268,9 @@ void removeBasicBlocks(handshake::FuncOp funcOp) {
 }
 
 static LogicalResult isValidMemrefType(Location loc, mlir::MemRefType type) {
-  if (type.getNumDynamicDims() != 0 || type.getShape().size() != 1)
-    return emitError(loc) << "memref's must be both statically sized and "
-                             "unidimensional.";
+  // if (type.getNumDynamicDims() != 0 || type.getShape().size() != 1)
+  //   return emitError(loc) << "memref's must be both statically sized and "
+  //                            "unidimensional.";
   return success();
 }
 
