@@ -269,6 +269,8 @@ private:
                         std::vector<Any> &);
   LogicalResult execute(mlir::arith::ExtSIOp, std::vector<Any> &,
                         std::vector<Any> &);
+  LogicalResult execute(mlir::arith::SelectOp, std::vector<Any> &,
+                        std::vector<Any> &);
   LogicalResult execute(mlir::arith::ExtUIOp, std::vector<Any> &,
                         std::vector<Any> &);
   LogicalResult execute(memref::LoadOp, std::vector<Any> &, std::vector<Any> &);
@@ -449,6 +451,18 @@ LogicalResult HandshakeExecuter::execute(mlir::arith::ExtUIOp op,
                                          std::vector<Any> &out) {
   int64_t width = op.getType().getIntOrFloatBitWidth();
   out[0] = any_cast<APInt>(in[0]).zext(width);
+  return success();
+}
+
+LogicalResult HandshakeExecuter::execute(mlir::arith::SelectOp op,
+                                         std::vector<Any> &in,
+                                         std::vector<Any> &out) {
+  APInt condition = any_cast<APInt>(in[0]);
+  if (condition != 0) {
+    out[0] = in[1];
+  } else {
+    out[0] = in[2];
+  }
   return success();
 }
 
@@ -725,7 +739,8 @@ HandshakeExecuter::HandshakeExecuter(
                   mlir::arith::MulIOp, mlir::arith::MulFOp,
                   mlir::arith::DivSIOp, mlir::arith::DivUIOp,
                   mlir::arith::DivFOp, mlir::arith::IndexCastOp,
-                  mlir::arith::ExtSIOp, mlir::arith::ExtUIOp, memref::AllocOp,
+                  mlir::arith::SelectOp, mlir::arith::ExtSIOp,
+                  mlir::arith::ExtUIOp, memref::AllocOp,
                   memref::LoadOp, memref::StoreOp>([&](auto op) {
               strat = ExecuteStrategy::Default;
               return execute(op, inValues, outValues);
@@ -876,8 +891,9 @@ HandshakeExecuter::HandshakeExecuter(
                   mlir::arith::MulIOp, mlir::arith::MulFOp,
                   mlir::arith::DivSIOp, mlir::arith::DivUIOp,
                   mlir::arith::DivFOp, mlir::arith::IndexCastOp,
-                  mlir::arith::ExtSIOp, mlir::arith::ExtUIOp,
-                  mlir::arith::XOrIOp, handshake::InstanceOp>([&](auto op) {
+                  mlir::arith::SelectOp, mlir::arith::ExtSIOp,
+                  mlir::arith::ExtUIOp, mlir::arith::XOrIOp,
+                  handshake::InstanceOp>([&](auto op) {
               strat = ExecuteStrategy::Default;
               return execute(op, inValues, outValues);
             })
