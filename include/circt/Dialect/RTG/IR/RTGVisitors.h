@@ -59,6 +59,10 @@ public:
             TupleCreateOp, TupleExtractOp,
             // Immediates
             IntToImmediateOp,
+            // Memories
+            MemoryAllocOp, MemoryBaseAddressOp, MemorySizeOp,
+            // Memory Blocks
+            MemoryBlockDeclareOp,
             // Misc ops
             CommentOp>([&](auto expr) -> ResultType {
           return thisCast->visitOp(expr, args...);
@@ -131,6 +135,10 @@ public:
   HANDLE(FixedRegisterOp, Unhandled);
   HANDLE(VirtualRegisterOp, Unhandled);
   HANDLE(IntToImmediateOp, Unhandled);
+  HANDLE(MemoryBlockDeclareOp, Unhandled);
+  HANDLE(MemoryAllocOp, Unhandled);
+  HANDLE(MemoryBaseAddressOp, Unhandled);
+  HANDLE(MemorySizeOp, Unhandled);
 #undef HANDLE
 };
 
