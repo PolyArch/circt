@@ -50,6 +50,8 @@
 #include "mlir/IR/DialectRegistry.h"
 #include "mlir/Pass/Pass.h"
 #include "mlir/Pass/PassRegistry.h"
+//put new pass here
+#include "circt/Conversion/LegalizeLLVM.h"
 
 namespace circt {
 

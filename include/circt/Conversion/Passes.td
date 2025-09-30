@@ -848,5 +848,21 @@ def ConvertAIGToComb: Pass<"convert-aig-to-comb", "hw::HWModuleOp"> {
   ];
 }
 
+//===----------------------------------------------------------------------===//
+// LegalizeLLVM
+//===----------------------------------------------------------------------===//
+
+def LegalizeLLVM : Pass<"legalize-llvm", "mlir::func::FuncOp"> {
+  let summary = "Legalize the LLVM dialect for CIRCT hardware lowering";
+  let description = [{
+    This pass converts LLVM dialect operations that are not directly
+    representable in hardware into simpler forms. For example, it converts
+    `llvm.mlir.undef` into a zero-valued `arith.constant`.
+  }];
+  let dependentDialects = [
+    "mlir::arith::ArithDialect", "mlir::LLVM::LLVMDialect"
+  ];
+  let constructor = "circt::createLegalizeLLVMPass()";
+}
 
 #endif // CIRCT_CONVERSION_PASSES_TD
