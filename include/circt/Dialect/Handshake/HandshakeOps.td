@@ -132,9 +132,7 @@ def FuncOp : Op<Handshake_Dialect, "func", [
     // OpAsmOpInterface Methods
     //===------------------------------------------------------------------===//
 
-    static ::llvm::StringRef getDefaultDialect() {
-      return "handshake";
-    }
+    static ::llvm::StringRef getDefaultDialect() { return ""; }
   }];
 
   let hasVerifier = 1;
